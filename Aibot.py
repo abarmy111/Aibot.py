@@ -62,11 +62,9 @@ for message in st.session_state.messages:
 
 # Accept user input
 if prompt := st.chat_input("What is up?"):
-    # Display user message in chat message container
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
+with st.chat_message("user"):
+st.markdown(prompt)
+st.session_state.messages.append({"role": "user", "content": prompt})
 
 # Streamed response emulator
 def response_generator():
@@ -77,10 +75,7 @@ def response_generator():
         yield word + " "
         time.sleep(0.05)
 
-
-# Display assistant response in chat message container
+# Display assistant response (indented, so it only runs after you send a message)
 with st.chat_message("assistant"):
-    response = st.write_stream(response_generator())
-
-# Add assistant response to chat history
+response = st.write_stream(response_generator())
 st.session_state.messages.append({"role": "assistant", "content": response})
